@@ -32,7 +32,6 @@ const UserDetail = () => {
   return (
     <div>
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">User Information</h3>
         <div className="flex items-start">
           <img
             src={getAvatar(user.name)}

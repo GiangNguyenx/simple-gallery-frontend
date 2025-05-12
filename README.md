@@ -32,10 +32,10 @@ Before you begin, ensure you have the following installed:
 
 Follow these steps to get the project up and running on your local machine:
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/GiangNguyenx/simple-gallery-frontend.git
-   cd simple-gallery-frontend
+1. Extract the project files from the ZIP archive:
+   ```powershell
+   Expand-Archive -Path MediaGallery.zip -DestinationPath .\media-gallery
+   cd media-gallery
    ```
 
 2. Install dependencies:
