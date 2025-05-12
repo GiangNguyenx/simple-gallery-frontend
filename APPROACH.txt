@@ -1,0 +1,99 @@
+### **Cách Tiếp Cận Phát Triển Ứng Dụng Media Gallery**
+
+#### **Tổng quan**
+Tài liệu này mô tả cách tôi xây dựng ứng dụng Media Gallery, một nền tảng dựa trên React để duyệt thông tin người dùng, album và ảnh từ API JSONPlaceholder. Tôi sẽ trình bày các công cụ, thư viện sử dụng, lý do chọn, cách tổ chức dự án, những khó khăn gặp phải và giải pháp, cũng như một số ý tưởng cải tiến trong tương lai.
+
+#### **Cấu trúc ứng dụng**
+Tôi thiết kế ứng dụng theo hướng component-based, tận dụng các phương pháp tốt nhất của React:
+- **Tổ chức component**: Chia thành các component giao diện (như AlbumList, UserList) và các page (như Albums, Users) để dễ quản lý.
+- **Quản lý trạng thái**: Sử dụng React hooks (useState, useEffect) để xử lý dữ liệu trong từng component.
+- **Điều hướng**: Dùng React Router để chuyển đổi giữa các trang mượt mà.
+- **Gọi API**: Tập trung các hàm gọi API vào một file riêng, sử dụng Axios để lấy dữ liệu đồng nhất.
+- **Giao diện**: Áp dụng TailwindCSS với cách tiếp cận utility-first để tạo giao diện nhanh và đẹp.
+
+#### **Thư viện và Công cụ chính**
+
+##### **React (v18)**
+Tôi chọn React vì khả năng tạo giao diện theo component, giúp mã dễ tái sử dụng và bảo trì. Phiên bản mới hỗ trợ hooks, giúp quản lý trạng thái và side effects (như gọi API) đơn giản hơn.
+
+**Lý do chọn**:
+- Dễ chia nhỏ giao diện thành các component như AlbumList hay UserDetail.
+- Virtual DOM giúp cập nhật giao diện nhanh.
+- Hệ sinh thái mạnh mẽ, nhiều tài liệu hỗ trợ.
+- Hooks như useState, useEffect giúp viết mã gọn gàng.
+
+##### **React Router (v6)**
+React Router được dùng để điều hướng giữa các trang (Albums, Users, chi tiết Album/User) mà không cần tải lại trang, tạo trải nghiệm mượt mà.
+
+**Lý do chọn**:
+- Hỗ trợ điều hướng động, ví dụ: `/albums/:id`.
+- Dễ lấy tham số URL với useParams.
+- Đồng bộ phân trang với URL bằng useSearchParams.
+- Quản lý lịch sử điều hướng tốt.
+
+##### **Axios (v1)**
+Tôi dùng Axios để gọi API từ JSONPlaceholder. Nó cung cấp cách gọi API đơn giản, dễ xử lý lỗi và hỗ trợ gọi nhiều API cùng lúc.
+
+**Lý do chọn**:
+- API Promise-based dễ dùng hơn fetch.
+- Hỗ trợ gọi song song với Promise.all, tiết kiệm thời gian.
+- Tự động chuyển đổi JSON.
+- Dễ xử lý lỗi khi API thất bại.
+
+##### **TailwindCSS (v3)**
+TailwindCSS giúp tôi tạo giao diện nhanh chóng với các class tiện ích, không cần viết CSS riêng. Nó rất phù hợp để làm giao diện responsive và đồng nhất.
+
+**Lý do chọn**:
+- Tăng tốc phát triển với các class như `grid-cols-5` hay `hover:opacity-80`.
+- Đảm bảo giao diện nhất quán (màu xám, xanh dương).
+- Hỗ trợ responsive dễ dàng (ví dụ: lưới ảnh từ 2 đến 5 cột).
+- Tùy chỉnh dễ qua `tailwind.config.js`.
+- Tạo file CSS nhỏ gọn nhờ tính năng purging.
+
+#### **API bên ngoài**
+
+##### **JSONPlaceholder**
+JSONPlaceholder là API giả miễn phí, cung cấp dữ liệu mẫu cho người dùng, album và ảnh, rất tiện cho phát triển và kiểm tra.
+
+**Lý do chọn**:
+- Dữ liệu thực tế, dễ dùng.
+- Cấu trúc RESTful rõ ràng.
+- Không cần xác thực.
+- Phản hồi nhanh, đáng tin cậy.
+- Có tài liệu rõ ràng về các endpoint.
+
+##### **UI Avatars**
+UI Avatars tạo ảnh đại diện từ tên người dùng, được dùng để hiển thị avatar cho người dùng trong ứng dụng.
+
+**Lý do chọn**:
+- API đơn giản, chỉ cần truyền tên để tạo avatar.
+- Có thể tùy chỉnh màu sắc, kích thước.
+- Không cần xác thực.
+- Tải nhanh, phù hợp với giao diện.
+
+#### **Cách phát triển**
+
+##### **Thiết kế responsive**
+Tôi ưu tiên thiết kế mobile-first, đảm bảo ứng dụng hiển thị tốt trên mọi kích thước màn hình, đặc biệt là ≥1280px như yêu cầu. Các bảng dùng `overflow-x-auto` để cuộn ngang trên mobile, lưới ảnh tự điều chỉnh từ 2 đến 5 cột.
+
+##### **Tái sử dụng component**
+Các component như `Loading`, `AlbumList` được thiết kế để dùng lại ở nhiều nơi, giảm lặp mã và giữ giao diện đồng nhất.
+
+##### **Phân trang**
+Tôi thêm phân trang phía client cho danh sách Albums (10 album/trang), đồng bộ với URL qua `useSearchParams`, giúp người dùng dễ quay lại trang trước.
+
+##### **Trải nghiệm người dùng**
+Tôi tập trung tạo giao diện dễ dùng với:
+- Điều hướng rõ ràng (link đến chi tiết Album/User).
+- Trạng thái tải (spinner) khi chờ API.
+- Các phần tử nhấp được (email, điện thoại, website) có `cursor-pointer` và hiệu ứng hover.
+- Modal ảnh tùy chỉnh với nền tối, nút đóng và hiệu ứng fade-in.
+
+
+#### **Cải tiến trong tương lai**
+- Thêm chức năng tìm kiếm người dùng hoặc album.
+- Bổ sung bộ lọc (ví dụ: lọc album theo người dùng).
+- Tạo chế độ xem ảnh dạng lightbox với zoom và chuyển ảnh bằng phím.
+- Thêm bộ nhớ đệm (caching) để tăng tốc tải dữ liệu.
+- Tích hợp xác thực người dùng để cá nhân hóa trải nghiệm.
+

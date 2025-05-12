@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Albums from "./pages/Albums";
+import Album from "./pages/Album";
+import Users from "./pages/Users";
+import User from "./pages/User";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="flex">
+        <Sidebar />
+        <div className="ml-64 flex-1 bg-gray-50 min-h-screen">
+          <main className="p-6">
+            <Routes>
+              <Route path="/" element={<Albums />} />
+              <Route path="/albums" element={<Albums />} />
+              <Route path="/albums/:id" element={<Album />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/users/:id" element={<User />} />
+            </Routes>
+          </main>
+        </div>
+      </div>
+    </Router>
   );
 }
+
 
 export default App;
